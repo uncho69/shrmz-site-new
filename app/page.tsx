@@ -343,7 +343,7 @@ export default function Home() {
 
       {/* Roadmap Section */}
       <GrowingSection id="roadmap" className="py-24 px-4 md:px-8 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-purple-500/20 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/50 to-purple-500/50"></div>
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-green-400 glow relative z-10">
           Our History & Accomplishments
         </h2>
@@ -354,26 +354,26 @@ export default function Home() {
           {timelineData.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, x: 0, y: 20 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ 
-                duration: 0.8,
+                duration: 0.5,
                 type: "spring",
-                bounce: 0.4
+                bounce: 0.2
               }}
               className={`flex ${
                 index % 2 === 0
                   ? "md:justify-end md:pr-8 justify-start px-4"
                   : "md:justify-start md:pl-8 justify-start px-4"
-              } mb-16 relative`}
+              } mb-8 md:mb-16 relative`}
             >
               {/* Punto sulla timeline */}
-              <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-green-400 rounded-full z-20 glow-dot"></div>
+              <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-3 h-3 md:w-4 md:h-4 bg-green-400 rounded-full z-20 glow-dot"></div>
               
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg shadow-xl border border-purple-600/20 relative overflow-hidden group"
+                className="w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] bg-gray-900/80 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-xl border border-purple-600/20 relative overflow-hidden group"
               >
                 {/* Sfondo animato al hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-green-400/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"></div>
