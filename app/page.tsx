@@ -354,13 +354,16 @@ export default function Home() {
           {timelineData.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ 
+                once: true,
+                amount: 0.1,
+                margin: "100px"
+              }}
               transition={{ 
-                duration: 0.5,
-                type: "spring",
-                bounce: 0.2
+                duration: 0.3,
+                ease: "easeOut"
               }}
               className={`flex ${
                 index % 2 === 0
