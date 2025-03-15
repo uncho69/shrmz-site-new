@@ -163,12 +163,21 @@ export default function Home() {
   useEffect(() => {
     // Reset scroll position on page load/refresh
     if (typeof window !== 'undefined') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'instant'
-      });
+      window.scrollTo(0, 0);
       document.body.style.overflow = scrollEnabled ? "auto" : "hidden";
     }
+
+    // Aggiungi event listener per il popstate (navigazione browser)
+    const handlePopState = () => {
+      window.scrollTo(0, 0);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, [scrollEnabled]);
 
   const handleScroll = () => {
