@@ -161,9 +161,15 @@ export default function Home() {
   const [scrollEnabled, setScrollEnabled] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    document.body.style.overflow = "hidden";
-  }, []);
+    // Reset scroll position on page load/refresh
+    if (typeof window !== 'undefined') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'instant'
+      });
+      document.body.style.overflow = scrollEnabled ? "auto" : "hidden";
+    }
+  }, [scrollEnabled]);
 
   const handleScroll = () => {
     setScrollEnabled(true);
@@ -171,7 +177,7 @@ export default function Home() {
     
     requestAnimationFrame(() => {
       const roadmapSection = document.getElementById("roadmap");
-      const offset = window.innerHeight * 0.1; // 10% dell'altezza della viewport
+      const offset = window.innerHeight * 0.1;
       
       if (roadmapSection) {
         const top = roadmapSection.offsetTop - offset;
