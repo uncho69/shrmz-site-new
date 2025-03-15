@@ -161,24 +161,41 @@ export default function Home() {
   const [scrollEnabled, setScrollEnabled] = useState(false);
 
   useEffect(() => {
-    // Reset scroll position on page load/refresh
-    if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0);
-      // Rimuovo il blocco dello scroll su mobile
-      const isMobile = window.innerWidth < 768;
-      document.body.style.overflow = isMobile ? "auto" : (scrollEnabled ? "auto" : "hidden");
-    }
-
-    // Aggiungi event listener per il popstate (navigazione browser)
-    const handlePopState = () => {
-      window.scrollTo(0, 0);
+    const resetScroll = () => {
+      if (typeof window !== 'undefined') {
+        // Forza lo scroll a 0 in diversi modi per massima compatibilità
+        window.scrollTo(0, 0);
+        window.scroll(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
     };
 
-    window.addEventListener('popstate', handlePopState);
-    
+    // Resetta lo scroll immediatamente
+    resetScroll();
+
+    // Gestisci tutti i possibili eventi di refresh/navigazione
+    window.addEventListener('load', resetScroll);
+    window.addEventListener('beforeunload', resetScroll);
+    window.addEventListener('unload', resetScroll);
+    window.addEventListener('popstate', resetScroll);
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        resetScroll();
+      }
+    });
+
+    // Rimuovi il blocco dello scroll su mobile
+    const isMobile = window.innerWidth < 768;
+    document.body.style.overflow = isMobile ? "auto" : (scrollEnabled ? "auto" : "hidden");
+
     // Cleanup
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('load', resetScroll);
+      window.removeEventListener('beforeunload', resetScroll);
+      window.removeEventListener('unload', resetScroll);
+      window.removeEventListener('popstate', resetScroll);
+      window.removeEventListener('pageshow', resetScroll);
     };
   }, [scrollEnabled]);
 
