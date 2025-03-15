@@ -5,8 +5,13 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Shroomiez',
-  description: 'Welcome to Shroomiez!',
+  title: 'Shroomiez - First Mushroom Collection on Berachain',
+  description: 'Discover the first mushroom collection of Berachain',
+  icons: {
+    icon: '/shroomiez-logo.png',
+    shortcut: '/shroomiez-logo.png',
+    apple: '/shroomiez-logo.png',
+  },
 };
 
 export default function RootLayout({
