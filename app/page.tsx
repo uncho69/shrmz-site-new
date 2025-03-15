@@ -164,7 +164,9 @@ export default function Home() {
     // Reset scroll position on page load/refresh
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
-      document.body.style.overflow = scrollEnabled ? "auto" : "hidden";
+      // Rimuovo il blocco dello scroll su mobile
+      const isMobile = window.innerWidth < 768;
+      document.body.style.overflow = isMobile ? "auto" : (scrollEnabled ? "auto" : "hidden");
     }
 
     // Aggiungi event listener per il popstate (navigazione browser)
@@ -323,10 +325,10 @@ export default function Home() {
           </motion.a>
         </div>
 
-        {/* Freccia per abilitare lo scroll e andare al roadmap */}
+        {/* Freccia per abilitare lo scroll e andare al roadmap - nascosta su mobile */}
         <motion.button
           onClick={handleScroll}
-          className="absolute bottom-12 cursor-pointer group"
+          className="absolute bottom-12 cursor-pointer group hidden md:block"
           animate={{
             y: [0, 10, 0],
           }}
