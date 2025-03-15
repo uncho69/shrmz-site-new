@@ -163,11 +163,25 @@ export default function Home() {
   useEffect(() => {
     const resetScroll = () => {
       if (typeof window !== 'undefined') {
-        // Forza lo scroll a 0 in diversi modi per massima compatibilità
-        window.scrollTo(0, 0);
-        window.scroll(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
+        // Forza lo scroll a 0 in modo più aggressivo
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'instant'
+          });
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+          
+          // Doppio check dopo un breve delay
+          setTimeout(() => {
+            window.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: 'instant'
+            });
+          }, 50);
+        });
       }
     };
 
@@ -185,6 +199,9 @@ export default function Home() {
       }
     });
 
+    // Aggiungi event listener per DOMContentLoaded
+    window.addEventListener('DOMContentLoaded', resetScroll);
+
     // Rimuovi il blocco dello scroll su mobile
     const isMobile = window.innerWidth < 768;
     document.body.style.overflow = isMobile ? "auto" : (scrollEnabled ? "auto" : "hidden");
@@ -196,6 +213,7 @@ export default function Home() {
       window.removeEventListener('unload', resetScroll);
       window.removeEventListener('popstate', resetScroll);
       window.removeEventListener('pageshow', resetScroll);
+      window.removeEventListener('DOMContentLoaded', resetScroll);
     };
   }, [scrollEnabled]);
 
@@ -241,8 +259,8 @@ export default function Home() {
         </a>
       </div>
 
-      {/* Hero Section */}
-      <GrowingSection className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Hero Section con margine di sicurezza */}
+      <GrowingSection className="min-h-[110vh] flex flex-col items-center justify-center relative overflow-hidden">
         {/* Particelle animate sullo sfondo */}
         <div className="absolute inset-0">
           <div className="absolute w-2 h-2 bg-purple-400 rounded-full animate-float-1" style={{ left: '10%', top: '20%' }} />
@@ -371,16 +389,24 @@ export default function Home() {
           {timelineData.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ 
+                opacity: 0,
+                x: index % 2 === 0 ? -50 : 50,
+                y: 20
+              }}
+              whileInView={{ 
+                opacity: 1,
+                x: 0,
+                y: 0
+              }}
               viewport={{ 
                 once: true,
-                amount: 0.1,
-                margin: "100px"
+                amount: 0.2,
+                margin: "50px"
               }}
               transition={{ 
-                duration: 0.3,
-                ease: "easeOut"
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1]
               }}
               className={`flex ${
                 index % 2 === 0
