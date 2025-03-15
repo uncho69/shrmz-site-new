@@ -158,82 +158,26 @@ const timelineData = [
 ];
 
 export default function Home() {
-  const [scrollEnabled, setScrollEnabled] = useState(false);
+  const handleScroll = () => {
+    const roadmapSection = document.getElementById("roadmap");
+    if (roadmapSection) {
+      const offset = window.innerHeight * 0.1;
+      const top = roadmapSection.offsetTop - offset;
+      window.scrollTo({
+        top,
+        behavior: "smooth"
+      });
+    }
+  };
 
   useEffect(() => {
-    const resetScroll = () => {
-      if (typeof window !== 'undefined') {
-        // Forza lo scroll a 0 in modo più aggressivo
-        requestAnimationFrame(() => {
-          window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'instant'
-          });
-          document.documentElement.scrollTop = 0;
-          document.body.scrollTop = 0;
-          
-          // Doppio check dopo un breve delay
-          setTimeout(() => {
-            window.scrollTo({
-              top: 0,
-              left: 0,
-              behavior: 'instant'
-            });
-          }, 50);
-        });
-      }
-    };
-
-    // Resetta lo scroll immediatamente
-    resetScroll();
-
-    // Gestisci tutti i possibili eventi di refresh/navigazione
-    window.addEventListener('load', resetScroll);
-    window.addEventListener('beforeunload', resetScroll);
-    window.addEventListener('unload', resetScroll);
-    window.addEventListener('popstate', resetScroll);
-    window.addEventListener('pageshow', (event) => {
-      if (event.persisted) {
-        resetScroll();
-      }
-    });
-
-    // Aggiungi event listener per DOMContentLoaded
-    window.addEventListener('DOMContentLoaded', resetScroll);
-
-    // Rimuovi il blocco dello scroll su mobile
-    const isMobile = window.innerWidth < 768;
-    document.body.style.overflow = isMobile ? "auto" : (scrollEnabled ? "auto" : "hidden");
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('load', resetScroll);
-      window.removeEventListener('beforeunload', resetScroll);
-      window.removeEventListener('unload', resetScroll);
-      window.removeEventListener('popstate', resetScroll);
-      window.removeEventListener('pageshow', resetScroll);
-      window.removeEventListener('DOMContentLoaded', resetScroll);
-    };
-  }, [scrollEnabled]);
-
-  const handleScroll = () => {
-    setScrollEnabled(true);
-    document.body.style.overflow = "auto";
-    
-    requestAnimationFrame(() => {
-      const roadmapSection = document.getElementById("roadmap");
-      const offset = window.innerHeight * 0.1;
-      
-      if (roadmapSection) {
-        const top = roadmapSection.offsetTop - offset;
-        window.scrollTo({
-          top,
-          behavior: "smooth"
-        });
-      }
-    });
-  };
+    if (typeof window !== 'undefined') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'instant'
+      });
+    }
+  }, []);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-purple-900 to-purple-500 text-white relative">
