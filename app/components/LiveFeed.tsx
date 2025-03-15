@@ -48,7 +48,7 @@ export default function LiveFeed() {
             href={tweet.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="block bg-gray-800/50 backdrop-blur-sm p-4 md:p-6 rounded-lg border border-purple-600/20 hover:border-green-400/50 transition-colors duration-300"
+            className="block bg-gray-800/50 backdrop-blur-sm p-4 md:p-6 rounded-lg border border-purple-600/20 hover:border-purple-400/50 transition-colors duration-300"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             whileHover={{ scale: 1.02 }}
