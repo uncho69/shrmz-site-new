@@ -259,8 +259,8 @@ export default function Home() {
         </a>
       </div>
 
-      {/* Hero Section con margine di sicurezza */}
-      <GrowingSection className="min-h-[110vh] flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Hero Section */}
+      <GrowingSection className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
         {/* Particelle animate sullo sfondo */}
         <div className="absolute inset-0">
           <div className="absolute w-2 h-2 bg-purple-400 rounded-full animate-float-1" style={{ left: '10%', top: '20%' }} />
@@ -363,7 +363,7 @@ export default function Home() {
         {/* Freccia per abilitare lo scroll e andare al roadmap - nascosta su mobile */}
         <motion.button
           onClick={handleScroll}
-          className="absolute bottom-12 cursor-pointer group hidden md:block"
+          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer group hidden md:block z-50"
           animate={{
             y: [0, 10, 0],
           }}
