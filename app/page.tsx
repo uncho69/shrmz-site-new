@@ -272,7 +272,7 @@ export default function Home() {
           transition={{ duration: 1, delay: 0.5 }}
           className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 md:mb-12 text-center max-w-2xl px-4"
         >
-          Discover the first mushroom collection of <span className="text-green-400">Berachain</span>
+          Discover the first mushroom collection of <span className="text-green-400">🐻⛓️</span>
         </motion.p>
 
         {/* Pulsanti CTA */}
