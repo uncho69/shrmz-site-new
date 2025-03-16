@@ -159,6 +159,7 @@ const timelineData = [
 export default function Home() {
   const [showArrow, setShowArrow] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [tweetsFailed, setTweetsFailed] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -168,7 +169,38 @@ export default function Home() {
       const script = document.createElement('script');
       script.src = "https://platform.twitter.com/widgets.js";
       script.async = true;
+      script.charset = "utf-8";
+      
+      // Imposta un timeout per verificare se il caricamento dei tweet fallisce
+      const tweetTimeout = setTimeout(() => {
+        const tweetContainer = document.querySelector('.twitter-timeline-rendered');
+        if (!tweetContainer) {
+          setTweetsFailed(true);
+        }
+      }, 5000);
+      
+      script.onload = () => {
+        clearTimeout(tweetTimeout);
+      };
+      
       document.body.appendChild(script);
+
+      // Ricarica lo script di Twitter quando la sezione dei tweet è visibile
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Ricarica lo script di Twitter
+            if ((window as any).twttr && (window as any).twttr.widgets) {
+              (window as any).twttr.widgets.load();
+            }
+          }
+        });
+      }, { threshold: 0.1 });
+
+      const tweetSection = document.getElementById('tweet-section');
+      if (tweetSection) {
+        observer.observe(tweetSection);
+      }
 
       // Handle scroll - Nasconde la freccia immediatamente appena si scrolla
       const handleScroll = () => {
@@ -180,7 +212,13 @@ export default function Home() {
       };
 
       window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+        if (tweetSection) {
+          observer.unobserve(tweetSection);
+        }
+        clearTimeout(tweetTimeout);
+      };
     }
   }, []);
 
@@ -421,22 +459,38 @@ export default function Home() {
       </div>
 
       {/* Live Feed Section */}
-      <div className="py-16 md:py-24 px-4 md:px-8">
+      <div id="tweet-section" className="py-16 md:py-24 px-4 md:px-8">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 md:mb-16 text-green-400/90">
           Latest Tweets
         </h2>
         <div className="max-w-xl md:max-w-2xl mx-auto">
           <div className="bg-purple-800/20 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-xl border border-purple-400/10">
             <div className="h-[400px] md:h-[600px] overflow-y-auto custom-scrollbar">
-              <a 
-                className="twitter-timeline" 
-                data-theme="dark"
-                data-chrome="transparent noheader nofooter noborders"
-                data-height="600"
-                href="https://twitter.com/ShroomiezNFTs"
-              >
-                Loading tweets...
-              </a>
+              {tweetsFailed ? (
+                <div className="flex flex-col items-center justify-center h-full text-center">
+                  <p className="text-gray-300 mb-4">Non è stato possibile caricare i tweet.</p>
+                  <a 
+                    href="https://twitter.com/ShroomiezNFTs" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg"
+                  >
+                    Visita il nostro Twitter
+                  </a>
+                </div>
+              ) : (
+                <a 
+                  className="twitter-timeline" 
+                  data-theme="dark"
+                  data-chrome="transparent noheader nofooter noborders"
+                  data-height="400"
+                  data-dnt="true"
+                  data-cards="hidden"
+                  href="https://twitter.com/ShroomiezNFTs"
+                >
+                  Loading tweets...
+                </a>
+              )}
             </div>
           </div>
         </div>
