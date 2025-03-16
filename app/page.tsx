@@ -483,7 +483,7 @@ export default function Home() {
                   Brice Bool Starting at 33 BERA, with 33% of each guess entry added to da brice bool. Guess entry is 0.69 BERA. Enjoy....
                 </p>
                 <a 
-                  href="https://twitter.com/ShroomiezNFTs/status/1770100780227043606"
+                  href="https://twitter.com/ShroomiezNFTs"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-400 hover:underline text-sm"
@@ -517,7 +517,7 @@ export default function Home() {
                   Snapshot has been taken ✅
                 </p>
                 <a 
-                  href="https://twitter.com/ShroomiezNFTs/status/1760658823941345516"
+                  href="https://twitter.com/ShroomiezNFTs"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-400 hover:underline text-sm"
@@ -551,7 +551,7 @@ export default function Home() {
                   Snapshot will be taken on Feb 15th at 4:20 PM UTC 📸
                 </p>
                 <a 
-                  href="https://twitter.com/ShroomiezNFTs/status/1756397183023874384"
+                  href="https://twitter.com/ShroomiezNFTs"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-400 hover:underline text-sm"
