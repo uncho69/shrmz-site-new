@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTwitter, FaDiscord, FaSeedling, FaBook, FaPuzzlePiece, FaRocket, FaChartLine, FaPlug, FaCode } from "react-icons/fa";
 import LiveFeed from "./components/LiveFeed";
+import LoadingScreen from "./components/LoadingScreen";
 
 const timelineData = [
   {
@@ -157,6 +158,7 @@ const timelineData = [
 
 export default function Home() {
   const [showArrow, setShowArrow] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -168,9 +170,9 @@ export default function Home() {
       script.async = true;
       document.body.appendChild(script);
 
-      // Handle scroll
+      // Handle scroll - Nasconde la freccia immediatamente appena si scrolla
       const handleScroll = () => {
-        if (window.scrollY > 100) {
+        if (window.scrollY > 0) {
           setShowArrow(false);
         } else {
           setShowArrow(true);
@@ -182,8 +184,15 @@ export default function Home() {
     }
   }, []);
 
+  // Aggiorna lo stato di caricamento
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-purple-900 via-purple-800 to-purple-700 text-white relative">
+      <LoadingScreen onLoadingComplete={handleLoadingComplete} />
+      
       {/* Social Links in alto a destra */}
       <div className="fixed top-4 right-4 flex gap-4 z-50">
         <a
@@ -220,7 +229,6 @@ export default function Home() {
             className="absolute -inset-4 bg-gradient-to-r from-purple-600 to-green-400 rounded-full opacity-75 blur-lg"
             animate={{
               scale: [1, 1.2, 1],
-              rotate: [0, 360],
             }}
             transition={{
               duration: 8,
@@ -228,26 +236,10 @@ export default function Home() {
               ease: "linear"
             }}
           />
-          <motion.img
+          <img
             src="/shroomiez-logo.png"
             alt="Shroomiez Logo"
             className="w-32 h-32 mb-8 relative"
-            animate={{ 
-              rotate: 360,
-              scale: [1, 1.1, 1]
-            }}
-            transition={{
-              rotate: {
-                duration: 8,
-                repeat: Infinity,
-                ease: "linear"
-              },
-              scale: {
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }
-            }}
           />
         </div>
 
@@ -308,7 +300,7 @@ export default function Home() {
         {/* Freccia indicatore di scroll */}
         <motion.div
           className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block z-50 transition-opacity duration-300 ${
-            showArrow ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            showArrow && !isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           animate={{
             y: [0, 10, 0],
