@@ -214,7 +214,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <div className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      <div className="h-screen flex flex-col items-center justify-center relative overflow-hidden px-4">
         {/* Particelle animate sullo sfondo */}
         <div className="absolute inset-0">
           <div className="absolute w-2 h-2 bg-purple-400 rounded-full animate-float-1" style={{ left: '10%', top: '20%' }} />
@@ -239,7 +239,7 @@ export default function Home() {
           <img
             src="/shroomiez-logo.png"
             alt="Shroomiez Logo"
-            className="w-32 h-32 mb-8 relative"
+            className="w-24 h-24 md:w-32 md:h-32 mb-6 md:mb-8 relative"
           />
         </div>
 
@@ -247,7 +247,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-6xl md:text-7xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-green-400 to-pink-600 text-center relative"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-green-400 to-pink-600 text-center relative"
         >
           Shroomiez
           <span className="absolute -inset-1 bg-gradient-to-r from-purple-400 via-green-400 to-pink-600 opacity-30 blur-xl -z-10"></span>
@@ -257,13 +257,13 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="text-2xl text-gray-300 mb-12 text-center max-w-2xl px-4"
+          className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 md:mb-12 text-center max-w-2xl px-4"
         >
           Discover the first mushroom collection of <span className="text-green-400">Berachain</span>
         </motion.p>
 
         {/* Pulsanti CTA */}
-        <div className="flex flex-wrap gap-6 justify-center mb-12">
+        <div className="flex flex-wrap gap-4 md:gap-6 justify-center mb-8 md:mb-12">
           <motion.a
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -271,11 +271,11 @@ export default function Home() {
             href="https://scatter.art/shroomiez"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center justify-center px-8 py-3"
+            className="group relative inline-flex items-center justify-center px-6 py-2 md:px-8 md:py-3"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full"></span>
             <span className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur-md group-hover:blur-lg transition-all duration-500"></span>
-            <span className="relative text-lg font-semibold text-white px-8 py-3">
+            <span className="relative text-base md:text-lg font-semibold text-white px-4 md:px-8 py-2 md:py-3">
               MINT NOW
             </span>
           </motion.a>
@@ -287,12 +287,12 @@ export default function Home() {
             href="https://discord.gg/AnTwX7YS3S"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center justify-center px-8 py-3"
+            className="group relative inline-flex items-center justify-center px-6 py-2 md:px-8 md:py-3"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-green-500 to-green-700 rounded-full"></span>
             <span className="absolute inset-0 bg-gradient-to-r from-green-500 to-green-700 rounded-full blur-md group-hover:blur-lg transition-all duration-500"></span>
-            <span className="relative text-lg font-semibold text-white px-8 py-3 flex items-center gap-2">
-              <FaDiscord className="text-xl" /> Join Discord
+            <span className="relative text-base md:text-lg font-semibold text-white px-4 md:px-8 py-2 md:py-3 flex items-center gap-2">
+              <FaDiscord className="text-lg md:text-xl" /> Join Discord
             </span>
           </motion.a>
         </div>
@@ -315,9 +315,9 @@ export default function Home() {
       </div>
 
       {/* Roadmap Section */}
-      <div id="roadmap" className="pt-0 pb-24 px-4 md:px-8 relative">
+      <div id="roadmap" className="pt-0 pb-16 md:pb-24 px-4 md:px-8 relative">
         <motion.h2 
-          className="text-4xl md:text-5xl font-bold text-center mb-12 relative z-10"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 md:mb-12 relative z-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.05 }}
@@ -353,34 +353,34 @@ export default function Home() {
               }}
               className={`flex ${
                 index % 2 === 0
-                  ? "md:justify-end md:pr-8 justify-start px-4"
-                  : "md:justify-start md:pl-8 justify-start px-4"
-              } mb-8 md:mb-12 relative`}
+                  ? "md:justify-end md:pr-8 justify-start px-2 md:px-4"
+                  : "md:justify-start md:pl-8 justify-start px-2 md:px-4"
+              } mb-6 md:mb-12 relative`}
             >
               {/* Punto sulla timeline */}
               <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-2 h-2 md:w-3 md:h-3 bg-gradient-to-r from-purple-300/50 to-green-300/50 rounded-full z-20"></div>
               
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] bg-purple-800/20 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-xl border border-purple-400/10 relative overflow-hidden group"
+                className="w-[calc(100%-1rem)] md:w-[calc(50%-2rem)] bg-purple-800/20 backdrop-blur-sm p-3 md:p-6 rounded-lg shadow-xl border border-purple-400/10 relative overflow-hidden group"
               >
                 {/* Sfondo animato al hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-green-400/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"></div>
                 
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-2">
-                    {index === 0 && <FaSeedling className="text-green-400 text-xl" />}
-                    {index === 1 && <FaBook className="text-green-400 text-xl" />}
-                    {index === 2 && <FaPuzzlePiece className="text-green-400 text-xl" />}
-                    {index === 3 && <FaRocket className="text-green-400 text-xl" />}
-                    {index === 4 && <FaChartLine className="text-green-400 text-xl" />}
-                    {index === 5 && <FaPlug className="text-green-400 text-xl" />}
-                    {index > 5 && <FaCode className="text-green-400 text-xl" />}
-                    <h3 className="text-2xl font-bold text-purple-300">{item.title}</h3>
+                  <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2">
+                    {index === 0 && <FaSeedling className="text-green-400 text-lg md:text-xl" />}
+                    {index === 1 && <FaBook className="text-green-400 text-lg md:text-xl" />}
+                    {index === 2 && <FaPuzzlePiece className="text-green-400 text-lg md:text-xl" />}
+                    {index === 3 && <FaRocket className="text-green-400 text-lg md:text-xl" />}
+                    {index === 4 && <FaChartLine className="text-green-400 text-lg md:text-xl" />}
+                    {index === 5 && <FaPlug className="text-green-400 text-lg md:text-xl" />}
+                    {index > 5 && <FaCode className="text-green-400 text-lg md:text-xl" />}
+                    <h3 className="text-xl md:text-2xl font-bold text-purple-300">{item.title}</h3>
                   </div>
-                  <p className="text-gray-400 mb-4 font-medium">{item.date}</p>
+                  <p className="text-gray-400 mb-3 md:mb-4 font-medium text-sm md:text-base">{item.date}</p>
                   {item.description && (
-                    <p className="text-gray-300 whitespace-pre-line mb-4 leading-relaxed">
+                    <p className="text-gray-300 whitespace-pre-line mb-3 md:mb-4 leading-relaxed text-sm md:text-base">
                       {item.description}
                     </p>
                   )}
@@ -391,13 +391,13 @@ export default function Home() {
                       href={item.button.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-green-500/25"
+                      className="inline-block px-4 py-1 md:px-6 md:py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-green-500/25 text-sm md:text-base"
                     >
                       {item.button.text}
                     </motion.a>
                   )}
                   {item.buttons && (
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-2 md:gap-4">
                       {item.buttons.map((btn, btnIndex) => (
                         <motion.a
                           key={btnIndex}
@@ -406,7 +406,7 @@ export default function Home() {
                           href={btn.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-block px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-green-500/25"
+                          className="inline-block px-4 py-1 md:px-6 md:py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-green-500/25 text-sm md:text-base"
                         >
                           {btn.text}
                         </motion.a>
@@ -421,13 +421,13 @@ export default function Home() {
       </div>
 
       {/* Live Feed Section */}
-      <div className="py-24 px-4 md:px-8">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-green-400/90">
+      <div className="py-16 md:py-24 px-4 md:px-8">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 md:mb-16 text-green-400/90">
           Latest Tweets
         </h2>
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-purple-800/20 backdrop-blur-sm p-6 rounded-lg shadow-xl border border-purple-400/10">
-            <div className="h-[600px] overflow-y-auto custom-scrollbar">
+        <div className="max-w-xl md:max-w-2xl mx-auto">
+          <div className="bg-purple-800/20 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-xl border border-purple-400/10">
+            <div className="h-[400px] md:h-[600px] overflow-y-auto custom-scrollbar">
               <a 
                 className="twitter-timeline" 
                 data-theme="dark"
@@ -443,7 +443,7 @@ export default function Home() {
       </div>
 
       {/* Copyright Footer */}
-      <div className="pb-8 text-center text-gray-400 text-sm">
+      <div className="pb-6 md:pb-8 text-center text-gray-400 text-xs md:text-sm">
         © 2025 Shroomiez. All rights reserved.
       </div>
 
