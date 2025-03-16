@@ -305,13 +305,14 @@ export default function Home() {
       </GrowingSection>
 
       {/* Roadmap Section */}
-      <GrowingSection id="roadmap" className="py-24 px-4 md:px-8 relative">
+      <GrowingSection id="roadmap" className="pt-4 pb-24 px-4 md:px-8 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/50 to-purple-500/50 backdrop-blur-sm"></div>
         <motion.h2 
-          className="text-4xl md:text-5xl font-bold text-center mb-16 relative z-10"
+          className="text-4xl md:text-5xl font-bold text-center mb-12 relative z-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.3 }}
         >
           <span className="bg-gradient-to-r from-green-400/80 via-purple-400/80 to-green-400/80 bg-clip-text text-transparent">
             Our History & Accomplishments
@@ -334,18 +335,18 @@ export default function Home() {
               }}
               viewport={{ 
                 once: true,
-                amount: 0.3,
-                margin: "100px"
+                amount: 0.2,
+                margin: "50px"
               }}
               transition={{ 
-                duration: 0.4,
-                ease: "easeOut"
+                duration: 0.3,
+                delay: index * 0.1
               }}
               className={`flex ${
                 index % 2 === 0
                   ? "md:justify-end md:pr-8 justify-start px-4"
                   : "md:justify-start md:pl-8 justify-start px-4"
-              } mb-8 md:mb-16 relative`}
+              } mb-8 md:mb-12 relative`}
             >
               {/* Punto sulla timeline */}
               <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-3 h-3 md:w-4 md:h-4 bg-green-400 rounded-full z-20 glow-dot"></div>
