@@ -322,35 +322,40 @@ export default function Home() {
 
       {/* Roadmap Section */}
       <GrowingSection id="roadmap" className="py-24 px-4 md:px-8 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/50 to-purple-500/50"></div>
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-green-400 glow relative z-10">
-          Our History & Accomplishments
-        </h2>
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/50 to-purple-500/50 backdrop-blur-sm"></div>
+        <motion.h2 
+          className="text-4xl md:text-5xl font-bold text-center mb-16 relative z-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="bg-gradient-to-r from-green-400/80 via-purple-400/80 to-green-400/80 bg-clip-text text-transparent">
+            Our History & Accomplishments
+          </span>
+        </motion.h2>
         <div className="max-w-6xl mx-auto relative">
-          {/* Linea verticale centrale con effetto glow */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-purple-600 via-green-400 to-purple-600 rounded-full glow-line md:block hidden"></div>
+          {/* Linea verticale centrale con effetto glow più sottile */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-purple-600/40 via-green-400/40 to-purple-600/40 rounded-full blur-sm md:block hidden"></div>
           
           {timelineData.map((item, index) => (
             <motion.div
               key={index}
               initial={{ 
                 opacity: 0,
-                x: index % 2 === 0 ? -50 : 50,
-                y: 20
+                x: index % 2 === 0 ? -20 : 20,
               }}
               whileInView={{ 
                 opacity: 1,
                 x: 0,
-                y: 0
               }}
               viewport={{ 
                 once: true,
-                amount: 0.2,
-                margin: "50px"
+                amount: 0.3,
+                margin: "100px"
               }}
               transition={{ 
-                duration: 0.8,
-                ease: [0.22, 1, 0.36, 1]
+                duration: 0.4,
+                ease: "easeOut"
               }}
               className={`flex ${
                 index % 2 === 0
