@@ -158,48 +158,41 @@ const timelineData = [
 ];
 
 export default function Home() {
-  const [hasScrolled, setHasScrolled] = useState(false);
+  const [isLocked, setIsLocked] = useState(true);
 
-  const handleScroll = () => {
-    if (!hasScrolled) {
-      setHasScrolled(true);
-      const roadmapSection = document.getElementById("roadmap");
-      if (roadmapSection) {
-        const offset = window.innerHeight * 0.1;
-        const top = roadmapSection.offsetTop - offset;
-        window.scrollTo({
-          top,
-          behavior: "smooth"
-        });
-      }
+  const scrollToRoadmap = () => {
+    const roadmap = document.getElementById('roadmap');
+    if (roadmap) {
+      roadmap.scrollIntoView({ behavior: 'smooth' });
+      setIsLocked(false);
     }
   };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'instant'
-      });
-
-      const preventScroll = (e: WheelEvent | TouchEvent) => {
-        if (!hasScrolled) {
+      window.scrollTo(0, 0);
+      
+      const preventScroll = (e: Event) => {
+        if (isLocked) {
           e.preventDefault();
+          return false;
         }
       };
 
+      document.body.style.overflow = isLocked ? 'hidden' : 'auto';
       window.addEventListener('wheel', preventScroll, { passive: false });
       window.addEventListener('touchmove', preventScroll, { passive: false });
 
       return () => {
         window.removeEventListener('wheel', preventScroll);
         window.removeEventListener('touchmove', preventScroll);
+        document.body.style.overflow = 'auto';
       };
     }
-  }, [hasScrolled]);
+  }, [isLocked]);
 
   return (
-    <main className={`min-h-screen bg-gradient-to-b from-purple-900 to-purple-500 text-white relative ${!hasScrolled ? 'overflow-hidden' : ''}`}>
+    <main className={`min-h-screen bg-gradient-to-b from-purple-900 to-purple-500 text-white relative ${isLocked ? 'overflow-hidden' : ''}`}>
       <SporesEffect />
       
       {/* Social Links in alto a destra */}
@@ -323,9 +316,9 @@ export default function Home() {
           </motion.a>
         </div>
 
-        {/* Freccia per abilitare lo scroll e andare al roadmap - nascosta su mobile */}
+        {/* Freccia per lo scroll */}
         <motion.button
-          onClick={handleScroll}
+          onClick={scrollToRoadmap}
           className="fixed bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer group hidden md:block z-50"
           animate={{
             y: [0, 10, 0],
