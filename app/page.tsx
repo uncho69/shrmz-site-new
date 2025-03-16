@@ -159,48 +159,27 @@ const timelineData = [
 export default function Home() {
   const [showArrow, setShowArrow] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [tweetsFailed, setTweetsFailed] = useState(false);
+  const [tweetsLoaded, setTweetsLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
       
-      // Add Twitter embed script
+      // Aggiungi script di Twitter
       const script = document.createElement('script');
       script.src = "https://platform.twitter.com/widgets.js";
       script.async = true;
       script.charset = "utf-8";
       
-      // Imposta un timeout per verificare se il caricamento dei tweet fallisce
-      const tweetTimeout = setTimeout(() => {
-        const tweetContainer = document.querySelector('.twitter-timeline-rendered');
-        if (!tweetContainer) {
-          setTweetsFailed(true);
-        }
-      }, 5000);
-      
+      // Quando lo script è caricato, carica i tweet
       script.onload = () => {
-        clearTimeout(tweetTimeout);
+        if ((window as any).twttr) {
+          (window as any).twttr.widgets.load();
+          setTweetsLoaded(true);
+        }
       };
       
       document.body.appendChild(script);
-
-      // Ricarica lo script di Twitter quando la sezione dei tweet è visibile
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            // Ricarica lo script di Twitter
-            if ((window as any).twttr && (window as any).twttr.widgets) {
-              (window as any).twttr.widgets.load();
-            }
-          }
-        });
-      }, { threshold: 0.1 });
-
-      const tweetSection = document.getElementById('tweet-section');
-      if (tweetSection) {
-        observer.observe(tweetSection);
-      }
 
       // Handle scroll - Nasconde la freccia immediatamente appena si scrolla
       const handleScroll = () => {
@@ -214,10 +193,6 @@ export default function Home() {
       window.addEventListener('scroll', handleScroll);
       return () => {
         window.removeEventListener('scroll', handleScroll);
-        if (tweetSection) {
-          observer.unobserve(tweetSection);
-        }
-        clearTimeout(tweetTimeout);
       };
     }
   }, []);
@@ -334,6 +309,23 @@ export default function Home() {
             </span>
           </motion.a>
         </div>
+
+        {/* Pulsante BBW Minigame */}
+        <motion.a
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.1 }}
+          href="https://bbw.shroomiezworld.xyz/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative inline-flex items-center justify-center px-6 py-2 md:px-8 md:py-3 mb-8 md:mb-12"
+        >
+          <span className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full"></span>
+          <span className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full blur-md group-hover:blur-lg transition-all duration-500"></span>
+          <span className="relative text-base md:text-lg font-semibold text-white px-4 md:px-8 py-2 md:py-3">
+            BBW Minigame
+          </span>
+        </motion.a>
 
         {/* Freccia indicatore di scroll */}
         <motion.div
@@ -458,39 +450,126 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Live Feed Section */}
+      {/* Tweet Section */}
       <div id="tweet-section" className="py-16 md:py-24 px-4 md:px-8">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 md:mb-16 text-green-400/90">
           Latest Tweets
         </h2>
-        <div className="max-w-xl md:max-w-2xl mx-auto">
+        <div className="max-w-xl md:max-w-3xl mx-auto">
           <div className="bg-purple-800/20 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-xl border border-purple-400/10">
-            <div className="h-[400px] md:h-[600px] overflow-y-auto custom-scrollbar">
-              {tweetsFailed ? (
-                <div className="flex flex-col items-center justify-center h-full text-center">
-                  <p className="text-gray-300 mb-4">Non è stato possibile caricare i tweet.</p>
-                  <a 
-                    href="https://twitter.com/ShroomiezNFTs" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg"
-                  >
-                    Visita il nostro Twitter
-                  </a>
+            <div className="flex flex-col space-y-6">
+              {/* Tweet 1 */}
+              <div className="bg-black rounded-xl p-4 border border-gray-800">
+                <div className="flex items-center mb-3">
+                  <img 
+                    src="/shroomiez-logo.png" 
+                    alt="Shroomiez Profile" 
+                    className="w-12 h-12 rounded-full mr-3"
+                  />
+                  <div>
+                    <div className="flex items-center">
+                      <p className="font-bold text-white">Shroomiez</p>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="#1D9BF0" className="ml-1">
+                        <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/>
+                      </svg>
+                      <p className="text-gray-500 ml-2">@ShroomiezNFTs</p>
+                    </div>
+                    <p className="text-gray-500 text-sm">Mar 18</p>
+                  </div>
                 </div>
-              ) : (
+                <p className="text-white mb-3">
+                  Bera Brice Wars (BBW) now live on Berachain 🐻💰⚔️<br/><br/>
+                  Guess the Brice of $BERA tomorrow at 4:20 PM UTC. Closest guess receives da Great Bera Brize Bool 🪙🐻<br/><br/>
+                  Brice Bool Starting at 33 BERA, with 33% of each guess entry added to da brice bool. Guess entry is 0.69 BERA. Enjoy....
+                </p>
                 <a 
-                  className="twitter-timeline" 
-                  data-theme="dark"
-                  data-chrome="transparent noheader nofooter noborders"
-                  data-height="400"
-                  data-dnt="true"
-                  data-cards="hidden"
-                  href="https://twitter.com/ShroomiezNFTs"
+                  href="https://twitter.com/ShroomiezNFTs/status/1770100780227043606"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:underline text-sm"
                 >
-                  Loading tweets...
+                  View on Twitter
                 </a>
-              )}
+              </div>
+              
+              {/* Tweet 2 */}
+              <div className="bg-black rounded-xl p-4 border border-gray-800">
+                <div className="flex items-center mb-3">
+                  <img 
+                    src="/shroomiez-logo.png" 
+                    alt="Shroomiez Profile" 
+                    className="w-12 h-12 rounded-full mr-3"
+                  />
+                  <div>
+                    <div className="flex items-center">
+                      <p className="font-bold text-white">Shroomiez</p>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="#1D9BF0" className="ml-1">
+                        <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/>
+                      </svg>
+                      <p className="text-gray-500 ml-2">@ShroomiezNFTs</p>
+                    </div>
+                    <p className="text-gray-500 text-sm">Feb 28</p>
+                  </div>
+                </div>
+                <p className="text-white mb-3">
+                  Shroomiez are getting plugged 🔌<br/><br/>
+                  Each Shroomiez holder will receive 66,250 $PLUG tokens 🍄<br/><br/>
+                  Snapshot has been taken ✅
+                </p>
+                <a 
+                  href="https://twitter.com/ShroomiezNFTs/status/1760658823941345516"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:underline text-sm"
+                >
+                  View on Twitter
+                </a>
+              </div>
+              
+              {/* Tweet 3 */}
+              <div className="bg-black rounded-xl p-4 border border-gray-800">
+                <div className="flex items-center mb-3">
+                  <img 
+                    src="/shroomiez-logo.png" 
+                    alt="Shroomiez Profile" 
+                    className="w-12 h-12 rounded-full mr-3"
+                  />
+                  <div>
+                    <div className="flex items-center">
+                      <p className="font-bold text-white">Shroomiez</p>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="#1D9BF0" className="ml-1">
+                        <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/>
+                      </svg>
+                      <p className="text-gray-500 ml-2">@ShroomiezNFTs</p>
+                    </div>
+                    <p className="text-gray-500 text-sm">Feb 10</p>
+                  </div>
+                </div>
+                <p className="text-white mb-3">
+                  BeraShroomiez are coming to Berachain 🐻🍄<br/><br/>
+                  137 BeraShroomiez will be available to mint on Artio testnet for Shroomiez holders 🧪<br/><br/>
+                  Snapshot will be taken on Feb 15th at 4:20 PM UTC 📸
+                </p>
+                <a 
+                  href="https://twitter.com/ShroomiezNFTs/status/1756397183023874384"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:underline text-sm"
+                >
+                  View on Twitter
+                </a>
+              </div>
+            </div>
+            
+            <div className="mt-6 text-center">
+              <a 
+                href="https://twitter.com/ShroomiezNFTs" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg"
+              >
+                Tutti i Tweet
+              </a>
             </div>
           </div>
         </div>
