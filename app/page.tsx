@@ -5,8 +5,6 @@ import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTwitter, FaDiscord, FaSeedling, FaBook, FaPuzzlePiece, FaRocket, FaChartLine, FaPlug, FaCode } from "react-icons/fa";
 import LiveFeed from "./components/LiveFeed";
-import SporesEffect from './components/SporesEffect';
-import GrowingSection from './components/GrowingSection';
 
 const timelineData = [
   {
@@ -158,16 +156,34 @@ const timelineData = [
 ];
 
 export default function Home() {
+  const [showArrow, setShowArrow] = useState(true);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
+      
+      // Add Twitter embed script
+      const script = document.createElement('script');
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.async = true;
+      document.body.appendChild(script);
+
+      // Handle scroll
+      const handleScroll = () => {
+        if (window.scrollY > 100) {
+          setShowArrow(false);
+        } else {
+          setShowArrow(true);
+        }
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
     }
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-purple-900 to-purple-500 text-white relative">
-      <SporesEffect />
-      
+    <main className="min-h-screen bg-gradient-to-b from-purple-900 via-purple-800 to-purple-700 text-white relative">
       {/* Social Links in alto a destra */}
       <div className="fixed top-4 right-4 flex gap-4 z-50">
         <a
@@ -189,7 +205,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <GrowingSection className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      <div className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
         {/* Particelle animate sullo sfondo */}
         <div className="absolute inset-0">
           <div className="absolute w-2 h-2 bg-purple-400 rounded-full animate-float-1" style={{ left: '10%', top: '20%' }} />
@@ -291,7 +307,9 @@ export default function Home() {
 
         {/* Freccia indicatore di scroll */}
         <motion.div
-          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block z-50"
+          className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block z-50 transition-opacity duration-300 ${
+            showArrow ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
           animate={{
             y: [0, 10, 0],
           }}
@@ -302,11 +320,10 @@ export default function Home() {
         >
           <ChevronDown className="w-12 h-12 text-white opacity-80 group-hover:text-green-400 transition-colors" />
         </motion.div>
-      </GrowingSection>
+      </div>
 
       {/* Roadmap Section */}
-      <GrowingSection id="roadmap" className="pt-0 pb-24 px-4 md:px-8 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-900 via-purple-800 to-purple-700 opacity-50 backdrop-blur-sm"></div>
+      <div id="roadmap" className="pt-0 pb-24 px-4 md:px-8 relative">
         <motion.h2 
           className="text-4xl md:text-5xl font-bold text-center mb-12 relative z-10"
           initial={{ opacity: 0, y: 20 }}
@@ -319,8 +336,8 @@ export default function Home() {
           </span>
         </motion.h2>
         <div className="max-w-6xl mx-auto relative">
-          {/* Linea verticale centrale con sfumatura più sottile */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b from-transparent via-purple-400/30 to-transparent rounded-full blur-sm md:block hidden"></div>
+          {/* Linea verticale centrale */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b from-transparent via-purple-300/20 to-transparent rounded-full blur-sm md:block hidden"></div>
           
           {timelineData.map((item, index) => (
             <motion.div
@@ -348,12 +365,12 @@ export default function Home() {
                   : "md:justify-start md:pl-8 justify-start px-4"
               } mb-8 md:mb-12 relative`}
             >
-              {/* Punto sulla timeline con sfumatura più sottile */}
-              <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-2 h-2 md:w-3 md:h-3 bg-gradient-to-r from-purple-400 to-green-400 rounded-full z-20 opacity-60"></div>
+              {/* Punto sulla timeline */}
+              <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-2 h-2 md:w-3 md:h-3 bg-gradient-to-r from-purple-300/50 to-green-300/50 rounded-full z-20"></div>
               
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] bg-purple-900/40 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-xl border border-purple-600/20 relative overflow-hidden group"
+                className="w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] bg-purple-800/20 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-xl border border-purple-400/10 relative overflow-hidden group"
               >
                 {/* Sfondo animato al hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-green-400/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"></div>
@@ -409,15 +426,52 @@ export default function Home() {
             </motion.div>
           ))}
         </div>
-      </GrowingSection>
+      </div>
 
       {/* Live Feed Section */}
-      <GrowingSection className="py-24 px-4 md:px-8">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-green-400 glow">
-          Live Updates
+      <div className="py-24 px-4 md:px-8">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-green-400/90">
+          Latest Tweets
         </h2>
-        <LiveFeed />
-      </GrowingSection>
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-purple-800/20 backdrop-blur-sm p-6 rounded-lg shadow-xl border border-purple-400/10">
+            <div className="h-[600px] overflow-y-auto custom-scrollbar">
+              <a 
+                className="twitter-timeline" 
+                data-theme="dark"
+                data-chrome="transparent noheader nofooter noborders"
+                data-height="600"
+                href="https://twitter.com/ShroomiezNFTs"
+              >
+                Loading tweets...
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright Footer */}
+      <div className="pb-8 text-center text-gray-400 text-sm">
+        © Shroomiez. All rights reserved.
+      </div>
+
+      {/* Stili per la scrollbar personalizzata */}
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(139, 92, 246, 0.1);
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(139, 92, 246, 0.3);
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(139, 92, 246, 0.5);
+        }
+      `}</style>
 
       {/* Esempio di stile glow extra */}
       <style jsx>{`
