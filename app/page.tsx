@@ -272,7 +272,7 @@ export default function Home() {
           transition={{ duration: 1, delay: 0.5 }}
           className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 md:mb-12 text-center max-w-2xl px-4"
         >
-          Discover the first mushroom collection of <span className="text-green-400">🐻⛓️</span>
+          Discover the first mushrooms collection of <span className="text-green-400">🐻⛓️</span>
         </motion.p>
 
         {/* Pulsanti CTA */}
@@ -328,20 +328,22 @@ export default function Home() {
         </motion.a>
 
         {/* Freccia indicatore di scroll */}
-        <motion.div
-          className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block z-50 transition-opacity duration-300 ${
-            showArrow && !isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'
-          }`}
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-          }}
-        >
-          <ChevronDown className="w-12 h-12 text-white opacity-80 group-hover:text-green-400 transition-colors" />
-        </motion.div>
+        <div className="fixed bottom-0 left-0 right-0 flex justify-center items-center pb-8 z-50 pointer-events-none">
+          <motion.div
+            className={`transition-opacity duration-300 ${
+              showArrow && !isLoading ? 'opacity-100' : 'opacity-0'
+            }`}
+            animate={{
+              y: [0, 10, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+            }}
+          >
+            <ChevronDown className="w-12 h-12 text-white opacity-80 pointer-events-auto group-hover:text-green-400 transition-colors" />
+          </motion.div>
+        </div>
       </div>
 
       {/* Roadmap Section */}
