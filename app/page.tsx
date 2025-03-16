@@ -305,22 +305,22 @@ export default function Home() {
       </GrowingSection>
 
       {/* Roadmap Section */}
-      <GrowingSection id="roadmap" className="pt-4 pb-24 px-4 md:px-8 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/50 to-purple-500/50 backdrop-blur-sm"></div>
+      <GrowingSection id="roadmap" className="pt-0 pb-24 px-4 md:px-8 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-900 via-purple-800 to-purple-700 opacity-50 backdrop-blur-sm"></div>
         <motion.h2 
           className="text-4xl md:text-5xl font-bold text-center mb-12 relative z-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{ duration: 0.3 }}
         >
-          <span className="bg-gradient-to-r from-green-400/80 via-purple-400/80 to-green-400/80 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-purple-400/90 via-green-400/90 to-purple-400/90 bg-clip-text text-transparent">
             Our History & Accomplishments
           </span>
         </motion.h2>
         <div className="max-w-6xl mx-auto relative">
-          {/* Linea verticale centrale con effetto glow più sottile */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-purple-600/40 via-green-400/40 to-purple-600/40 rounded-full blur-sm md:block hidden"></div>
+          {/* Linea verticale centrale con sfumatura più sottile */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b from-transparent via-purple-400/30 to-transparent rounded-full blur-sm md:block hidden"></div>
           
           {timelineData.map((item, index) => (
             <motion.div
@@ -335,12 +335,12 @@ export default function Home() {
               }}
               viewport={{ 
                 once: true,
-                amount: 0.2,
-                margin: "50px"
+                amount: 0.1,
+                margin: "-50px"
               }}
               transition={{ 
                 duration: 0.3,
-                delay: index * 0.1
+                delay: index * 0.05
               }}
               className={`flex ${
                 index % 2 === 0
@@ -348,12 +348,12 @@ export default function Home() {
                   : "md:justify-start md:pl-8 justify-start px-4"
               } mb-8 md:mb-12 relative`}
             >
-              {/* Punto sulla timeline */}
-              <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-3 h-3 md:w-4 md:h-4 bg-green-400 rounded-full z-20 glow-dot"></div>
+              {/* Punto sulla timeline con sfumatura più sottile */}
+              <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-2 h-2 md:w-3 md:h-3 bg-gradient-to-r from-purple-400 to-green-400 rounded-full z-20 opacity-60"></div>
               
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] bg-gray-900/80 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-xl border border-purple-600/20 relative overflow-hidden group"
+                className="w-[calc(100%-2rem)] md:w-[calc(50%-2rem)] bg-purple-900/40 backdrop-blur-sm p-4 md:p-6 rounded-lg shadow-xl border border-purple-600/20 relative overflow-hidden group"
               >
                 {/* Sfondo animato al hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-green-400/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out"></div>
