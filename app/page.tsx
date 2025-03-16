@@ -158,41 +158,14 @@ const timelineData = [
 ];
 
 export default function Home() {
-  const [isLocked, setIsLocked] = useState(true);
-
-  const scrollToRoadmap = () => {
-    const roadmap = document.getElementById('roadmap');
-    if (roadmap) {
-      roadmap.scrollIntoView({ behavior: 'smooth' });
-      setIsLocked(false);
-    }
-  };
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
-      
-      const preventScroll = (e: Event) => {
-        if (isLocked) {
-          e.preventDefault();
-          return false;
-        }
-      };
-
-      document.body.style.overflow = isLocked ? 'hidden' : 'auto';
-      window.addEventListener('wheel', preventScroll, { passive: false });
-      window.addEventListener('touchmove', preventScroll, { passive: false });
-
-      return () => {
-        window.removeEventListener('wheel', preventScroll);
-        window.removeEventListener('touchmove', preventScroll);
-        document.body.style.overflow = 'auto';
-      };
     }
-  }, [isLocked]);
+  }, []);
 
   return (
-    <main className={`min-h-screen bg-gradient-to-b from-purple-900 to-purple-500 text-white relative ${isLocked ? 'overflow-hidden' : ''}`}>
+    <main className="min-h-screen bg-gradient-to-b from-purple-900 to-purple-500 text-white relative">
       <SporesEffect />
       
       {/* Social Links in alto a destra */}
@@ -316,10 +289,9 @@ export default function Home() {
           </motion.a>
         </div>
 
-        {/* Freccia per lo scroll */}
-        <motion.button
-          onClick={scrollToRoadmap}
-          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer group hidden md:block z-50"
+        {/* Freccia indicatore di scroll */}
+        <motion.div
+          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block z-50"
           animate={{
             y: [0, 10, 0],
           }}
@@ -329,7 +301,7 @@ export default function Home() {
           }}
         >
           <ChevronDown className="w-12 h-12 text-white opacity-80 group-hover:text-green-400 transition-colors" />
-        </motion.button>
+        </motion.div>
       </GrowingSection>
 
       {/* Roadmap Section */}
