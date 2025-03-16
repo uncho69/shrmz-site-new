@@ -452,7 +452,7 @@ export default function Home() {
 
       {/* Copyright Footer */}
       <div className="pb-8 text-center text-gray-400 text-sm">
-        © Shroomiez. All rights reserved.
+        © 2025 Shroomiez. All rights reserved.
       </div>
 
       {/* Stili per la scrollbar personalizzata */}
