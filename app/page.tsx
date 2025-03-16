@@ -158,7 +158,10 @@ const timelineData = [
 ];
 
 export default function Home() {
+  const [scrollEnabled, setScrollEnabled] = useState(false);
+
   const handleScroll = () => {
+    setScrollEnabled(true);
     const roadmapSection = document.getElementById("roadmap");
     if (roadmapSection) {
       const offset = window.innerHeight * 0.1;
@@ -172,15 +175,33 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // Reset scroll position on load
       window.scrollTo({
         top: 0,
         behavior: 'instant'
       });
+
+      // Prevent scroll until button is clicked
+      const preventScroll = (e: WheelEvent | TouchEvent) => {
+        if (!scrollEnabled) {
+          e.preventDefault();
+        }
+      };
+
+      // Add event listeners
+      window.addEventListener('wheel', preventScroll, { passive: false });
+      window.addEventListener('touchmove', preventScroll, { passive: false });
+
+      // Cleanup
+      return () => {
+        window.removeEventListener('wheel', preventScroll);
+        window.removeEventListener('touchmove', preventScroll);
+      };
     }
-  }, []);
+  }, [scrollEnabled]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-purple-900 to-purple-500 text-white relative">
+    <main className={`min-h-screen bg-gradient-to-b from-purple-900 to-purple-500 text-white relative ${!scrollEnabled ? 'overflow-hidden' : ''}`}>
       <SporesEffect />
       
       {/* Social Links in alto a destra */}
